@@ -41,6 +41,7 @@ public class ProgressWheel extends View {
     // Padding (with defaults)
     private int paddingTop = 5;
     private int paddingBottom = 5;
+
     private int paddingLeft = 5;
     private int paddingRight = 5;
 
@@ -212,6 +213,9 @@ public class ProgressWheel extends View {
 
         fullRadius = (this.getLayoutParams().width - paddingRight - barWidth) / 2;
         circleRadius = (fullRadius - barWidth) + 1;
+        if (!drawRim) {
+            circleRadius = fullRadius;
+        }
     }
 
     /**
@@ -230,6 +234,9 @@ public class ProgressWheel extends View {
 
         rimWidth = (int) a.getDimension(R.styleable.ProgressWheel_rimWidth,
                 rimWidth);
+        if (!drawRim) {
+            rimWidth = barWidth;
+        }
 
         spinSpeed = (int) a.getDimension(R.styleable.ProgressWheel_spinSpeed,
                 spinSpeed);
