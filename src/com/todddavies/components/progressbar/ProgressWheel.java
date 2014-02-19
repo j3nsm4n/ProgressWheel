@@ -24,6 +24,9 @@ import android.view.View;
  */
 public class ProgressWheel extends View {
 
+    private boolean drawRim = true;
+    private int drawContour = 3;
+
     // Sizes (with defaults)
     private int layout_height = 0;
     private int layout_width = 0;
@@ -217,6 +220,11 @@ public class ProgressWheel extends View {
      * @param a the attributes to parse
      */
     private void parseAttributes(TypedArray a) {
+
+        drawRim = (boolean) a.getBoolean(R.styleable.ProgressWheel_drawRim, drawRim);
+
+        drawContour = (int) a.getInteger(R.styleable.ProgressWheel_drawContour, drawContour);
+
         barWidth = (int) a.getDimension(R.styleable.ProgressWheel_barWidth,
                 barWidth);
 
@@ -244,8 +252,8 @@ public class ProgressWheel extends View {
                 textColor);
 
         // if the text is empty , so ignore it
-        if (a.hasValue(R.styleable.ProgressWheel_text)) {
-            setText(a.getString(R.styleable.ProgressWheel_text));
+        if (a.hasValue(R.styleable.ProgressWheel_android_text)) {
+            setText(a.getString(R.styleable.ProgressWheel_android_text));
         }
 
         rimColor = (int) a.getColor(R.styleable.ProgressWheel_rimColor,
@@ -268,9 +276,23 @@ public class ProgressWheel extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         // Draw the rim
-        canvas.drawArc(circleBounds, 360, 360, false, rimPaint);
-        canvas.drawArc(circleOuterContour, 360, 360, false, contourPaint);
-        canvas.drawArc(circleInnerContour, 360, 360, false, contourPaint);
+        if (drawRim) {
+            canvas.drawArc(circleBounds, 360, 360, false, rimPaint);
+        }
+        switch (drawContour) {
+            case 0:
+                break;
+            case 1:
+                canvas.drawArc(circleInnerContour, 360, 360, false, contourPaint);
+                break;
+            case 2:
+                canvas.drawArc(circleOuterContour, 360, 360, false, contourPaint);
+                break;
+            case 3:
+                canvas.drawArc(circleInnerContour, 360, 360, false, contourPaint);
+                canvas.drawArc(circleOuterContour, 360, 360, false, contourPaint);
+                break;
+        }
         // Draw the bar
         if (isSpinning) {
             canvas.drawArc(circleBounds, progress - 90, barLength, false,

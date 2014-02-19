@@ -16,6 +16,13 @@
         <attr name="barLength" format="dimension" />
         <attr name="contourColor" format="color" />
         <attr name="contourSize" format="dimension" />
+        <attr name="drawRim" format="boolean" />
+        <attr name="drawContour" format="integer">
+            <enum name="none" value="0" />
+            <enum name="inner" value="1" />
+            <enum name="outer" value="2" />
+            <enum name="both" value="3" />
+        </attr>
     </declare-styleable>
 
 </resources>
